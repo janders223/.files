@@ -1,0 +1,53 @@
+#! /usr/bin/env bash
+#
+# Author: Jim Anders <jimanders223@gmail.com>
+
+#{{{ Bash settings
+# abort on nonzero exitstatus
+set -o errexit
+# abort on unbound variable
+set -o nounset
+# don't hide errors within pipes
+set -o pipefail
+#}}}
+#{{{ Variables
+readonly script_name=$(basename "${0}")
+readonly script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+IFS=$'\t\n'   # Split on newlines and tabs (but not on spaces)
+
+#}}}
+
+main() {
+	# Ask for the administrator password upfront
+	sudo -v
+
+	# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+	while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+	if ! [ -x "$(command -v nix-env)" ]; then
+		install_nix
+	fi
+
+	if ! [ "$(uname)" == "Darwin" ]; then
+            if ! [ -x "$(command -v darwin-rebuild)" ]; then
+		install_nix_darwin
+            fi
+	fi
+}
+
+#{{{ Helper functions
+install_nix() {
+	sh <(curl https://nixos.org/nix/install) --daemon
+}
+
+install_nix_darwin() {
+	local dir
+        dir=$(mktemp -d)
+	cd "$dir"
+	/nix/var/nix/profiles/default/bin/nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
+	./result/bin/darwin-installer
+	cd $HOME
+}
+#}}}
+
+main
