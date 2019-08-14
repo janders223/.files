@@ -52,6 +52,7 @@ in {
       nix-zsh-completions
       nodejs
       reattach-to-user-namespace
+      shellcheck
       wget
       yarn
       zsh
