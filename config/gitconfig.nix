@@ -1,4 +1,5 @@
-{ home }: ''[user]
+''
+  [user]
     name = Jim Anders
     email = jimanders223@gmail.com
   [alias]
@@ -24,7 +25,7 @@
     whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
     editor = vim
     quotepath = false
-    excludesfile = ${home}/.gitignore_global
+    excludesfile = /etc/per-user/.gitignore
   [credential]
     helper = osxkeychain
   [github]
@@ -43,5 +44,5 @@
   [push]
     default = current
   [init]
-    templatedir = ~/.git_template
+    templatedir = /etc/per-user/.git_template
 ''

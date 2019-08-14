@@ -17,13 +17,13 @@ in {
     darwinConfig = "$HOME/src/.files/default.nix";
     etc = {
       "per-user/alacritty/alacritty.yml".text = import ./config/alacritty.nix { zsh = pkgs.zsh; };
-      "per-user/.gitconfig".text = import ./config/gitconfig.nix { home = home; };
+      "per-user/.gitconfig".text = import ./config/gitconfig.nix;
       "per-user/.git_template/hooks/ctags".text = import ./config/git_template/ctags.nix { ctags = pkgs.ctags; };
       "per-user/.git_template/hooks/post-checkout".text = import ./config/git_template/post-checkout.nix;
       "per-user/.git_template/hooks/post-commit".text = import ./config/git_template/post-commit.nix;
       "per-user/.git_template/hooks/post-merge".text = import ./config/git_template/post-merge.nix;
       "per-user/.git_template/hooks/post-rewrite".text = import ./config/git_template/post-rewrite.nix;
-      "per-user/.gitignore_global".text = import ./config/gitignore.nix;
+      "per-user/.gitignore".text = import ./config/gitignore.nix;
     };
     shells = [ pkgs.zsh ];
     shellAliases = {
@@ -141,9 +141,7 @@ in {
             sudo chmod +x $file
           done
            ln -sfn /etc/per-user/alacritty ~/.config/
-           ln -sfn /etc/per-user/.gitconfig ~/
-           ln -sfn /etc/per-user/.git_template ~/
-           ln -sfn /etc/per-user/.gitignore_globa ~/
+           sudo ln -sfn /etc/per-user/.gitconfig /etc/gitconfig
            mkdir -p ~/.cache/backup
            mkdir -p ~/.cache/swap
            mkdir -p ~/.cache/undo
