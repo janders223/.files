@@ -137,6 +137,9 @@ in {
   system = {
     activationScripts = {
       extraUserActivation.text = ''
+          for file in /etc/per-user/.git_template/*; do
+            sudo chmod +x $file
+          done
            ln -sfn /etc/per-user/alacritty ~/.config/
            ln -sfn /etc/per-user/.gitconfig ~/
            ln -sfn /etc/per-user/.git_template ~/
