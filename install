@@ -2,6 +2,7 @@
 #
 # Author: Jim Anders <jimanders223@gmail.com>
 
+{
 # abort on nonzero exitstatus
 set -o errexit
 # abort on unbound variable
@@ -33,7 +34,12 @@ main() {
 
 #{{{ Helper functions
 install_nix() {
-    sh <(curl https://nixos.org/nix/install) --daemon
+    local dir
+    dir=$(mktemp -d)
+    cd "$dir"
+    curl -L -o install https://nixos.org/nix/install
+    $(command -v sh) install --daemon
+    cd "$HOME"
 }
 
 install_nix_darwin() {
@@ -55,3 +61,4 @@ download_dotfiles() {
 #}}}
 
 main
+}
