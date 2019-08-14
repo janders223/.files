@@ -1,4 +1,4 @@
-{ vim, home }: ''[user]
+{ home }: ''[user]
     name = Jim Anders
     email = jimanders223@gmail.com
   [alias]
@@ -22,7 +22,7 @@
     ui = auto
   [core]
     whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-    editor = ${vim}
+    editor = vim
     quotepath = false
     excludesfile = ${home}/.gitignore_global
   [credential]
@@ -34,9 +34,9 @@
   [mergetool]
     keepBackup = true
   [mergetool "vimdiff4"]
-    cmd = ${vim} -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+    cmd = vim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
   [mergetool "fugitive"]
-    cmd = ${vim} -f -c "Gdiff" "$MERGED"
+    cmd = vim -f -c "Gdiff" "$MERGED"
   [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f

@@ -31,7 +31,19 @@ self: super: {
        url = "https://app-updates.agilebits.com/download/${version}";
        sha256 = "d1b7b93f1814635acdb3e256b3099af71a12bfc88b48ebc293aa3c3917b9fc2f";
     };
-       description = "Go ahead. Forget your passwords.";
-       homepage = "https://0password.com";
+    description = "Go ahead. Forget your passwords.";
+    homepage = "https://1password.com";
+  };
+
+  Spectacle = self.installApplication rec {
+    name = "Spectacle";
+    version = "1.2";
+    sourceRoot = "Spectacle.app";
+    src = super.fetchurl {
+      url = "https://s3.amazonaws.com/spectacle/downloads/Spectacle+${version}.zip";
+      sha256 = "037kayakprzvs27b50r260lwh2r9479f2pd221qmdv04nkrmnvbn";
+    };
+    description = "Move and resize windows with ease.";
+    homepage = "https://www.spectacleapp.com";
   };
 }

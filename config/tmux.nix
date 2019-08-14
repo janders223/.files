@@ -1,4 +1,4 @@
-''
+{ tmuxPlugins }:''
 # Set prefix key to c-f instead of default c-b
 unbind C-b
 set -g prefix C-a
@@ -128,14 +128,11 @@ set -g status-position "top"
 
 # List of plugins
 # see this https://github.com/tmux-plugins/tpm to installation
-set -g @plugin 'tmux-plugins/tpm'
-set -g @plugin 'arcticicestudio/nord-tmux'
-set -g @plugin 'christoomey/vim-tmux-navigator'
-set -g @plugin 'tmux-plugins/tmux-sensible'
-set -g @plugin 'tmux-plugins/tmux-open'
-set -g @plugin 'tmux-plugins/tmux-yank'
-set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
-
-# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
-run -b '~/.tmux/plugins/tpm/tpm'
+run-shell ${tmuxPlugins.vim-tmux-navigator.rtp}
+run-shell ${tmuxPlugins.nord.rtp}
+#set -g @plugin 'christoomey/vim-tmux-navigator'
+#set -g @plugin 'tmux-plugins/tmux-sensible'
+#set -g @plugin 'tmux-plugins/tmux-open'
+#set -g @plugin 'tmux-plugins/tmux-yank'
+#set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
 ''

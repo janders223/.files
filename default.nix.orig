@@ -17,7 +17,7 @@ in {
     darwinConfig = "$HOME/src/.files/default.nix";
     etc = {
       "per-user/alacritty/alacritty.yml".text = import ./config/alacritty.nix { zsh = pkgs.zsh; };
-      "per-user/.gitconfig".text = import ./config/gitconfig.nix { home = home; };
+      "per-user/.gitconfig".text = import ./config/gitconfig.nix { home = home; vim = config.programs.vim.package; };
       "per-user/.git_template/ctags".text = import ./config/git_template/ctags.nix { ctags = pkgs.ctags; };
       "per-user/.git_template/post-checkout".text = import ./config/git_template/post-checkout.nix;
       "per-user/.git_template/post-commit".text = import ./config/git_template/post-commit.nix;
@@ -29,8 +29,7 @@ in {
     shellAliases = {
       la = "ls -halF";
       rebuild = "darwin-rebuild switch";
-      edit = "$(which vim) ${home}/src/.files/**/*.nix";
-      git = "$(which hub)";
+      edit = "vim ${home}/src/.files/**/*.nix";
     };
     systemPackages = with pkgs; [
       config.programs.vim.package
@@ -38,29 +37,10 @@ in {
       #_1Password
 
       alacritty
-      cacert
       ctags
-      curl
-      direnv
       fzf
       git
-      gnugrep
-      gnumake
-      go
-      gitAndTools.hub
-      less
-      nix-zsh-completions
-      nodejs
-      reattach-to-user-namespace
-      wget
-      yarn
       zsh
-      zsh-syntax-highlighting
-
-      tmuxPlugins.nord
-      tmuxPlugins.vim-tmux-navigator
-
-      Spectacle
     ];
     variables = rec {
       TERM = "screen-256color";
@@ -91,7 +71,11 @@ in {
     };
     tmux = {
       enable = true;
-      tmuxConfig = import ./config/tmux.nix { tmuxPlugins = pkgs.tmuxPlugins; };
+      enableFzf = true;
+      enableMouse = true;
+      enableSensible = true;
+      enableVim = true;
+      tmuxConfig = import ./config/tmux.nix;
     };
     vim = {
       package = pkgs.vim_configurable.customize {
@@ -101,11 +85,7 @@ in {
             darwin = {
               start = with pkgs.vimPlugins; [
                 nord-vim
-                vim-airline
-                vim-fugitive
                 vim-nix
-                vim-surround
-                vim-tmux-navigator
               ];
               opt = with pkgs.vimPlugins; [];
             };
@@ -194,9 +174,6 @@ in {
   nix = {
     maxJobs = 4;
     buildCores = 4;
-    nixPath = [
-      "nixpkgs=$HOME/src/.files/nixpkgs"
-    ];
   };
   nixpkgs = {
     config = {
@@ -204,7 +181,7 @@ in {
       allowBroken = false;
       allowUnsupportedSystem = false;
     };
-    overlays =
+    overlays = 
     let path = ./overlays; in with builtins;
     map (n: import (path + ("/" + n)))
     (filter (n: match ".*\\.nix" n != null ||
