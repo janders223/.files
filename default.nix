@@ -49,6 +49,7 @@ in {
       go
       gitAndTools.hub
       less
+      # (import ./mas)
       nix-zsh-completions
       nodejs
       reattach-to-user-namespace
@@ -101,6 +102,7 @@ in {
           packages = {
             darwin = {
               start = with pkgs.vimPlugins; [
+                fzf-vim
                 nord-vim
                 vim-airline
                 vim-fugitive
@@ -138,8 +140,8 @@ in {
   system = {
     activationScripts = {
       extraUserActivation.text = ''
-          for file in /etc/per-user/.git_template/*; do
-            sudo chmod +x $file
+          for file in /etc/per-user/.git_template/hooks/*; do
+            sudo chmod a+x $file
           done
            ln -sfn /etc/per-user/alacritty ~/.config/
            sudo ln -sfn /etc/per-user/.gitconfig /etc/gitconfig

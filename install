@@ -3,61 +3,108 @@
 # Author: Jim Anders <jimanders223@gmail.com>
 
 {
-# abort on nonzero exitstatus
-set -o errexit
-# abort on unbound variable
-set -o nounset
-# don't hide errors within pipes
-set -o pipefail
+    # abort on nonzero exitstatus
+    set -o errexit
+    # abort on unbound variable
+    set -o nounset
+    # don't hide errors within pipes
+    set -o pipefail
 
-main() {
-    # Ask for the administrator password upfront
-    sudo -v
+    main() {
+        # Ask for the administrator password upfront
+        sudo -v
 
         # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
         while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
             if ! [ -x "$(command -v nix-env)" ]; then
+                echo "[INSTALL]: Installing base nix system"
                 install_nix
+                echo "[INSTALL]: Done"
             fi
 
-            if ! [ "$(uname)" == "Darwin" ]; then
+            if [ "$(uname)" == "Darwin" ]; then
+                echo "[INSTALL]: Detected macOS, installing configuration"
+                if ! [ -x "$(command -v mas)" ]; then
+                    echo "[INSTALL]: Installing mas"
+                    install_mas
+                    echo "[INSTALL]: Done"
+                fi
+
+                if [ -x "$(command -v mas)" ];then
+                    install_mas_apps
+                fi
+
                 if ! [ -x "$(command -v darwin-rebuild)" ]; then
+                    echo "[INSTALL]: Installing nix darwin modules"
                     install_nix_darwin
+                    echo "[INSTALL]: Done"
                 fi
 
                 download_dotfiles
             fi
 
-            darwin-rebuild switch -I darwin-config="${HOME}/src/.files/default.nix"
+            echo "[INSTALL]: Building the nix system"
+            darwin-rebuild switch -I darwin-config="${HOME}/src/dotfiles/default.nix"
+            echo "[INSTALL]: Done"
+            echo "[INSTALL]: Some changes may require a reboot to take effect"
         }
 
 #{{{ Helper functions
 install_nix() {
     local dir
     dir=$(mktemp -d)
-    cd "$dir"
+    cd "${dir}"
     curl -L -o install https://nixos.org/nix/install
     $(command -v sh) install --daemon
-    cd "$HOME"
+    cd "${HOME}"
 }
 
 install_nix_darwin() {
     local dir
     dir=$(mktemp -d)
-    cd "$dir"
+    cd "${dir}"
     /nix/var/nix/profiles/default/bin/nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
     ./result/bin/darwin-installer
-    cd "$HOME"
+    cd "${HOME}"
 }
 
 download_dotfiles() {
-    if ! [ -f "$HOME/src/.files" ];then
-        mkdir -p "$HOME/src"
-        cd "$HOME/src"
-        curl https://github.com/janders223/.files/archive/master.tar.gz | tar zx
+    if ! [ -d "${HOME}/src/dotfiles" ];then
+        echo "[INSTALL]: Downloading janders223 .files"
+        mkdir -p "${HOME}/src"
+        cd "${HOME}/src"
+        #curl -L https://github.com/janders223/.files/archive/master.tar.gz | tar zx
+        echo "[INSTALL]: Done"
+        cd "${HOME}"
     fi
 }
+
+install_mas() {
+    local dir
+    dir=$(mktemp -d)
+    cd "${dir}"
+    curl -LO https://github.com/mas-cli/mas/releases/download/v1.6.3/mas.pkg
+    sudo installer -pkg mas.pkg -target /
+    cd "${HOME}"
+}
+
+install_mas_apps() {
+    echo "[INSTALL]: Install mas apps"
+    # sign in is currently disabled
+    # mas signin jimanders223@gmail.com
+    APPS=(
+    1462114288 # Grammarly for Safari (9.2)
+    937984704 # Amphetamine (4.2)
+    931657367 # Calcbot (1.0.7)
+    1436953057 # GhosteryLite (1.0.0)
+    )
+
+    for app in "${APPS[@]}"; do
+        mas install "$app"
+    done
+    echo "[INSTALL]: Done"
+}
+
 #}}}
 
 main
