@@ -36,8 +36,6 @@ in {
     systemPackages = with pkgs; [
       config.programs.vim.package
 
-      #_1Password
-
       alacritty
       cacert
       ctags
@@ -50,7 +48,6 @@ in {
       go
       gitAndTools.hub
       less
-      # (import ./mas)
       nix-zsh-completions
       nodejs
       reattach-to-user-namespace
@@ -64,6 +61,7 @@ in {
       tmuxPlugins.vim-tmux-navigator
 
       Spectacle
+      (import ./pkgs/postman)
     ];
     variables = rec {
       TERM = "screen-256color";
