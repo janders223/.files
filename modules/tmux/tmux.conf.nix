@@ -130,8 +130,6 @@ set -g status-position "top"
 # see this https://github.com/tmux-plugins/tpm to installation
 run-shell ${tmuxPlugins.vim-tmux-navigator.rtp}
 run-shell ${tmuxPlugins.nord.rtp}
-#set -g @plugin 'christoomey/vim-tmux-navigator'
-#set -g @plugin 'tmux-plugins/tmux-sensible'
 #set -g @plugin 'tmux-plugins/tmux-open'
 #set -g @plugin 'tmux-plugins/tmux-yank'
 #set -g @plugin 'tmux-plugins/tmux-prefix-highlight'

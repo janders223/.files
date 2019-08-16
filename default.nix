@@ -9,135 +9,22 @@ let
   };
 
 in {
-  networking = {
-    hostName = "midgard";
-  };
+  networking.hostName = "midgard";
 
-  environment = {
-    darwinConfig = "$HOME/src/dotfiles/default.nix";
-    etc = {
-      "per-user/alacritty/alacritty.yml".text = import ./config/alacritty.nix { zsh = pkgs.zsh; };
-      "per-user/.gitconfig".text = import ./config/gitconfig.nix;
-      "per-user/.git_template/hooks/ctags".text = import ./config/git_template/ctags.nix { ctags = pkgs.ctags; };
-      "per-user/.git_template/hooks/post-checkout".text = import ./config/git_template/post-checkout.nix;
-      "per-user/.git_template/hooks/post-commit".text = import ./config/git_template/post-commit.nix;
-      "per-user/.git_template/hooks/post-merge".text = import ./config/git_template/post-merge.nix;
-      "per-user/.git_template/hooks/post-rewrite".text = import ./config/git_template/post-rewrite.nix;
-      "per-user/.gitignore".text = import ./config/gitignore.nix;
-      "per-user/.zshrc".text = import ./config/zshrc.nix;
-    };
-    shells = [ pkgs.zsh ];
-    shellAliases = {
-      la = "ls -halF";
-      rebuild = "darwin-rebuild switch";
-      git = "$(which hub)";
-      path = "echo $PATH | tr -s ':' '\n'";
-    };
-    systemPackages = with pkgs; [
-      config.programs.vim.package
+  environment = import ./modules/environment { inherit pkgs config home; };
 
-      alacritty
-      cacert
-      ctags
-      curl
-      direnv
-      fzf
-      git
-      gnugrep
-      gnumake
-      go
-      gitAndTools.hub
-      less
-      nix-zsh-completions
-      nodejs
-      reattach-to-user-namespace
-      shellcheck
-      wget
-      yarn
-      zsh
-      zsh-syntax-highlighting
+  fonts.enableFontDir = true;
+  fonts.fonts = with pkgs; [ fira-code ];
 
-      tmuxPlugins.nord
-      tmuxPlugins.vim-tmux-navigator
+  services.nix-daemon.enable = true;
 
-      Spectacle
-      (import ./pkgs/postman)
-    ];
-    variables = rec {
-      TERM = "screen-256color";
-      LANG = "en_US.UTF-8";
-      LC_ALL = LANG;
-      LESSCHARSET = "utf-8";
-      EDITOR = "${pkgs.vim}";
-      GOROOT = [ "${pkgs.go.out}/share/go" ];
-      GOPATH = "${home}/go";
-    };
-  };
+  programs.bash.enable = true;
 
-  fonts = {
-    enableFontDir = true;
-    fonts = with pkgs; [
-      fira-code
-    ];
-  };
+  programs.tmux = import ./modules/tmux { inherit pkgs; };
 
-  services = {
-    nix-daemon = {
-      enable = true;
-    };
-  };
+  programs.vim = import ./modules/vim { inherit pkgs; };
 
-  programs = {
-    bash = {
-      enable = true;
-      #enableCompletion = true;
-    };
-    tmux = {
-      enable = true;
-      tmuxConfig = import ./config/tmux.nix { tmuxPlugins = pkgs.tmuxPlugins; };
-    };
-    vim = {
-      package = pkgs.vim_configurable.customize {
-        name = "vim";
-        vimrcConfig = {
-          packages = {
-            darwin = {
-              start = with pkgs.vimPlugins; [
-                fzf-vim
-                nord-vim
-                vim-airline
-                vim-fugitive
-                vim-go
-                vim-nix
-                vim-surround
-                vim-tmux-navigator
-              ];
-              opt = with pkgs.vimPlugins; [];
-            };
-          };
-          customRC = import ./config/vimrc.nix;
-        };
-      };
-    };
-    zsh = {
-      enable = true;
-      enableCompletion = true;
-      enableBashCompletion = true;
-      enableFzfCompletion = true;
-      enableFzfGit = true;
-      enableFzfHistory = true;
-      enableSyntaxHighlighting = true;
-      promptInit = ''
-        fpath=( "$HOME/.zfunctions" $fpath )
-        autoload -U promptinit && promptinit && prompt pure
-      '';
-      interactiveShellInit = ''
-        autoload -U up-line-or-beginning-search
-        bindkey '^[[A' up-line-or-beginning-search
-        zle -N up-line-or-beginning-search
-      '';
-    };
-  };
+  programs.zsh = import ./modules/zsh { inherit home; };
 
   system = {
     activationScripts = {
@@ -190,6 +77,7 @@ in {
       };
       smb = {
         NetBIOSName = "midgard";
+        ServerDescription = "midgard";
       };
     };
     keyboard = {

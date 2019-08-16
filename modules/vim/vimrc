@@ -1,4 +1,3 @@
-''
 " Load filetype settings, plugins, and maps
 if has('autocmd')
     let g:maplocalleader = ','
@@ -275,4 +274,3 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
-''
