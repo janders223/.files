@@ -13,7 +13,7 @@ in stdenv.mkDerivation rec {
     sha256 = "1s1yhwlvn55wgg2h5h3hy7p35rrcpq1snbl8ml70i5lw9zrdrfd2";
   };
 
-  unpackCmd = "unzip $curSrc";
+  unpackCmd = "unzip -qq $curSrc";
 
   installPhase = ''
     mkdir -p "$out/Applications/${name}.app"
