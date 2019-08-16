@@ -24,12 +24,14 @@ in {
       "per-user/.git_template/hooks/post-merge".text = import ./config/git_template/post-merge.nix;
       "per-user/.git_template/hooks/post-rewrite".text = import ./config/git_template/post-rewrite.nix;
       "per-user/.gitignore".text = import ./config/gitignore.nix;
+      "per-user/.zshrc".text = import ./config/zshrc.nix;
     };
     shells = [ pkgs.zsh ];
     shellAliases = {
       la = "ls -halF";
       rebuild = "darwin-rebuild switch";
       git = "$(which hub)";
+      path = "echo $PATH | tr -s ':' '\n'";
     };
     systemPackages = with pkgs; [
       config.programs.vim.package
@@ -69,6 +71,8 @@ in {
       LC_ALL = LANG;
       LESSCHARSET = "utf-8";
       EDITOR = "${pkgs.vim}";
+      GOROOT = [ "${pkgs.go.out}/share/go" ];
+      GOPATH = "${home}/go";
     };
   };
 
@@ -105,6 +109,7 @@ in {
                 nord-vim
                 vim-airline
                 vim-fugitive
+                vim-go
                 vim-nix
                 vim-surround
                 vim-tmux-navigator
@@ -143,6 +148,7 @@ in {
             sudo chmod a+x $file
           done
            ln -sfn /etc/per-user/alacritty ~/.config/
+           ln -sfn /etc/per-user/.zshrc ~/
            sudo ln -sfn /etc/per-user/.gitconfig /etc/gitconfig
            mkdir -p ~/.cache/backup
            mkdir -p ~/.cache/swap
