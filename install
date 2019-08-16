@@ -30,6 +30,12 @@
                     echo "[INSTALL]: Done"
                 fi
 
+                if ! [ -f "/Applications/1Password 7.app" ]; then
+                    echo "[INSTALL]: Installing 1Password app"
+                    install_1pass
+                    echo "[INSTALL]: Done"
+                fi
+
                 if [ -x "$(command -v mas)" ];then
                     install_mas_apps
                 fi
@@ -44,7 +50,7 @@
             fi
 
             echo "[INSTALL]: Building the nix system"
-            darwin-rebuild switch -I darwin-config="${HOME}/src/dotfiles/default.nix"
+            darwin-rebuild switch -I darwin-config="${HOME}/src/dotfiles/default.nix" -I nixpkgs="${HOME}/src/dotfiles/nixpkgs"
             echo "[INSTALL]: Done"
             echo "[INSTALL]: Some changes may require a reboot to take effect"
         }
@@ -103,6 +109,17 @@ install_mas_apps() {
         mas install "$app"
     done
     echo "[INSTALL]: Done"
+}
+
+install_1pass() {
+    local dir
+    dir=$(mktemp -d)
+    cd "${dir}"
+    echo "${PWD}"
+    curl -L https://app-updates.agilebits.com/download/OPM7 >> 1password.pkg
+    ls -halF
+    sudo installer -pkg 1password.pkg -target /
+    cd "${HOME}"
 }
 
 #}}}

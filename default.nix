@@ -14,7 +14,7 @@ in {
   };
 
   environment = {
-    darwinConfig = "$HOME/src/.files/default.nix";
+    darwinConfig = "$HOME/src/dotfiles/default.nix";
     etc = {
       "per-user/alacritty/alacritty.yml".text = import ./config/alacritty.nix { zsh = pkgs.zsh; };
       "per-user/.gitconfig".text = import ./config/gitconfig.nix;
@@ -29,7 +29,6 @@ in {
     shellAliases = {
       la = "ls -halF";
       rebuild = "darwin-rebuild switch";
-      edit = "$(which vim) ${home}/src/.files/**/*.nix";
       git = "$(which hub)";
     };
     systemPackages = with pkgs; [
@@ -199,7 +198,7 @@ in {
     maxJobs = 4;
     buildCores = 4;
     nixPath = [
-      "nixpkgs=$HOME/src/.files/nixpkgs"
+      "nixpkgs=$HOME/src/dotfiles/nixpkgs"
     ];
   };
   nixpkgs = {
