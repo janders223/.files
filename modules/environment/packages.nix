@@ -27,6 +27,6 @@ with pkgs; [
   tmuxPlugins.nord
   tmuxPlugins.vim-tmux-navigator
 
-  Spectacle
+  (import ../../pkgs/spectacle)
   (import ../../pkgs/postman)
 ]

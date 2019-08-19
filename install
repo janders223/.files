@@ -30,7 +30,7 @@
                     echo "[INSTALL]: Done"
                 fi
 
-                if ! [ -f "/Applications/1Password 7.app" ]; then
+                if ! [ -e "/Applications/1Password 7.app" ]; then
                     echo "[INSTALL]: Installing 1Password app"
                     install_1pass
                     echo "[INSTALL]: Done"
@@ -104,6 +104,7 @@ install_mas_apps() {
     931657367 # Calcbot (1.0.7)
     1262957439 # Textual IRC Client (7.1.1)
     1436953057 # GhosteryLite (1.0.0)
+    405399194  # Kindle (1.26.1)
     )
 
     for app in "${APPS[@]}"; do
@@ -116,9 +117,7 @@ install_1pass() {
     local dir
     dir=$(mktemp -d)
     cd "${dir}"
-    echo "${PWD}"
     curl -L https://app-updates.agilebits.com/download/OPM7 >> 1password.pkg
-    ls -halF
     sudo installer -pkg 1password.pkg -target /
     cd "${HOME}"
 }
