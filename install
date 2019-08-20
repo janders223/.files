@@ -105,6 +105,7 @@ install_mas_apps() {
     1262957439 # Textual IRC Client (7.1.1)
     1436953057 # GhosteryLite (1.0.0)
     405399194  # Kindle (1.26.1)
+    803453959  # Slack (4.0.1)
     )
 
     for app in "${APPS[@]}"; do
