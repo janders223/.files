@@ -6,9 +6,9 @@ let
 in stdenv.mkDerivation rec {
   name = "Spectacle";
 
-  buildInputs = [ undmg unzip ];
+  buildInputs = [ unzip ];
 
-  srRoot = "Spectacle.app";
+  srcRoot = "Spectacle.app";
 
   src = fetchurl {
     url = "https://s3.amazonaws.com/spectacle/downloads/Spectacle+${version}.zip";

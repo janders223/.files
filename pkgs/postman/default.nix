@@ -9,11 +9,10 @@ in stdenv.mkDerivation rec {
   buildInputs = [ unzip ];
 
   src = fetchurl {
+    name = "postman-${version}.zip";
     url = "https://dl.pstmn.io/download/version/${version}/osx64";
     sha256 = "1s1yhwlvn55wgg2h5h3hy7p35rrcpq1snbl8ml70i5lw9zrdrfd2";
   };
-
-  unpackCmd = "unzip -qq $curSrc";
 
   installPhase = ''
     mkdir -p "$out/Applications/${name}.app"
@@ -26,7 +25,5 @@ in stdenv.mkDerivation rec {
     maintainers = with maintainers; [ janders223 ];
     platforms = platforms.darwin;
   };
-
-  #phases = ["unpackPhase" "installPhase"];
 }
 
