@@ -129,7 +129,7 @@ set -g status-position "top"
 # List of plugins
 # see this https://github.com/tmux-plugins/tpm to installation
 run-shell ${tmuxPlugins.vim-tmux-navigator.rtp}
-run-shell ${tmuxPlugins.nord.rtp}
+run-shell ${tmuxPlugins.nord-theme.rtp}
 #set -g @plugin 'tmux-plugins/tmux-open'
 #set -g @plugin 'tmux-plugins/tmux-yank'
 #set -g @plugin 'tmux-plugins/tmux-prefix-highlight'

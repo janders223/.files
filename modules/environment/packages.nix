@@ -15,6 +15,7 @@ with pkgs; [
   go
   gitAndTools.hub
   less
+  lua
   nix-zsh-completions
   nodejs
   reattach-to-user-namespace
@@ -24,7 +25,7 @@ with pkgs; [
   zsh
   zsh-syntax-highlighting
 
-  tmuxPlugins.nord
+  tmuxPlugins.nord-theme
   tmuxPlugins.vim-tmux-navigator
 
   (import ../../pkgs/spectacle)

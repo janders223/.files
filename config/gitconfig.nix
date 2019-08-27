@@ -45,4 +45,8 @@
     default = current
   [init]
     templatedir = /etc/per-user/.git_template
+  [http]
+    proxy = http://127.0.0.1:3128
+  [https]
+    proxy = http://127.0.0.1:3128
 ''

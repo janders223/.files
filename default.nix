@@ -29,12 +29,12 @@ in {
   system = {
     activationScripts = {
       extraUserActivation.text = ''
-          for file in /etc/per-user/.git_template/hooks/*; do
-            sudo chmod a+x $file
-          done
+           for file in /etc/per-user/.git_template/hooks/*; do
+             sudo chmod a+x $file
+           done
            ln -sfn /etc/per-user/alacritty ~/.config/
            ln -sfn /etc/per-user/.zshrc ~/
-           sudo ln -sfn /etc/per-user/.gitconfig /etc/gitconfig
+           sudo ln -sfn /etc/per-user/.gitconfig "${home}"/.gitconfig
            mkdir -p ~/.cache/backup
            mkdir -p ~/.cache/swap
            mkdir -p ~/.cache/undo
@@ -90,7 +90,7 @@ in {
     maxJobs = 4;
     buildCores = 4;
     nixPath = [
-      "nixpkgs=$HOME/src/dotfiles/nixpkgs"
+      "nixpkgs=$HOME/src/nixpkgs"
     ];
   };
   nixpkgs = {
