@@ -5,6 +5,7 @@ with pkgs; [
 
   alacritty
   cacert
+  consul
   ctags
   curl
   direnv
@@ -25,9 +26,10 @@ with pkgs; [
   zsh
   zsh-syntax-highlighting
 
-  tmuxPlugins.nord-theme
+  tmuxPlugins.nord
   tmuxPlugins.vim-tmux-navigator
 
   (import ../../pkgs/spectacle)
   (import ../../pkgs/postman)
+  (import ../../pkgs/docker)
 ]

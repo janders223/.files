@@ -9,5 +9,6 @@
   "per-user/.git_template/hooks/post-merge".text = import ../../config/git_template/post-merge.nix;
   "per-user/.git_template/hooks/post-rewrite".text = import ../../config/git_template/post-rewrite.nix;
   "per-user/.gitignore".text = import ../../config/gitignore.nix;
-  "per-user/.zshrc".text = import ../../config/zshrc.nix;
+  "per-user/.zshrc".text = builtins.readFile ../../config/zshrc;
+  "per-user/bin/tat".text = builtins.readFile ../../bin/tat.nix;
   }

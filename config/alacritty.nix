@@ -62,7 +62,7 @@ window:
   #
   # Values for `startup_mode` (macOS only):
   #   - SimpleFullscreen
-  startup_mode: Fullscreen
+  # startup_mode: Fullscreen
 
   # Window title
   #title: Alacritty

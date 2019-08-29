@@ -8,4 +8,5 @@ rec {
   EDITOR = "${pkgs.vim}";
   GOROOT = [ "${pkgs.go.out}/share/go" ];
   GOPATH = "${home}/go";
+  PATH = "/etc/per-user/bin:$PATH";
 }

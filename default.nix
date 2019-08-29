@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  home = "/Users/janders223";
+  home = builtins.getEnv "HOME";
   pureZshPrompt = pkgs.fetchgit {
     url = "https://github.com/sindresorhus/pure";
     rev = "e7036c43487fedf608a988dde54dd1d4c0d96823";
@@ -30,6 +30,9 @@ in {
     activationScripts = {
       extraUserActivation.text = ''
            for file in /etc/per-user/.git_template/hooks/*; do
+             sudo chmod a+x $file
+           done
+           for file in /etc/per-user/bin/*; do
              sudo chmod a+x $file
            done
            ln -sfn /etc/per-user/alacritty ~/.config/

@@ -113,10 +113,10 @@ bind-key L resize-pane -R 10
 
 # Select panes
 # NOTE(arslan): See to prevent cycling https://github.com/tmux/tmux/issues/1158
-bind-key j select-pane -D 
-bind-key k select-pane -U 
-bind-key h select-pane -L 
-bind-key l select-pane -R 
+bind-key j select-pane -D
+bind-key k select-pane -U
+bind-key h select-pane -L
+bind-key l select-pane -R
 
 # Disable confirm before killing
 bind-key x kill-pane
@@ -129,7 +129,7 @@ set -g status-position "top"
 # List of plugins
 # see this https://github.com/tmux-plugins/tpm to installation
 run-shell ${tmuxPlugins.vim-tmux-navigator.rtp}
-run-shell ${tmuxPlugins.nord-theme.rtp}
+run-shell ${tmuxPlugins.nord.rtp}
 #set -g @plugin 'tmux-plugins/tmux-open'
 #set -g @plugin 'tmux-plugins/tmux-yank'
 #set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
